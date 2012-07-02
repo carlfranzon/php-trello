@@ -31,8 +31,13 @@ class Trello {
    *
    * @return string
    */
-  protected function apiUrl($path) {
+  protected function apiUrl($path, $query) {
     $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
+
+    if (isset($query)) {
+      $url .= '&' . urlencode($query);
+    }
+
     return $url;
   }
 
