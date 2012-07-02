@@ -23,7 +23,7 @@ class TrelloBaseTestCase extends PHPUnit_Framework_TestCase {
     $expected = 'https://api.trello.com/1/members/' . $this->username . '?key=' . $this->apiKey;
     $result = $this->apiUrl('/members/' . $this->username, '');
 
-    $this->assertEquals($expected, $result);
+    $this->assertEquals($expected, $result, 'Successfully build apiUrl ' . $expected);
   }
 
 }
