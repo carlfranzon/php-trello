@@ -31,7 +31,7 @@ class Trello {
    *
    * @return string
    */
-  protected function apiUrl($path, $query) {
+  public function apiUrl($path, $query) {
     $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
 
     if (isset($query)) {
@@ -65,7 +65,7 @@ class Trello {
    *   - headers: An array containing HTTP response headers.
    *   - data: The body of the response.
    */
-  protected function buildRequest($url, $options) {
+  public function buildRequest($url, $options) {
     $result = new stdClass();
 
     $uri = @parse_url($url);
