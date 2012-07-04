@@ -17,7 +17,7 @@ abstract class Trello {
    *
    * @return string
    */
-  public function apiUrl($path, $query) {
+  public function apiUrl($path, $query = NULL) {
     $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
 
     if (isset($query) && !empty($query)) {
