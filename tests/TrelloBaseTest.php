@@ -40,12 +40,12 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
 
     // Test that an invalid key will fail properly
     $expected = 401;
-    $result = $this->clientWrongKey->buildRequest($this->client->apiUrl('/members/' . $this->client->username, ''));
+    $result = $this->clientWrongKey->buildRequest($this->clientWrongKey->apiUrl('/members/' . $this->clientWrongKey->username, ''));
     $this->assertTrue($expected == $result->code, 'Invalid key fails to fail');
 
     // Test that an invalid username will fail properly
     $expected = 404;
-    $result = $this->clientWrongKey->buildRequest($this->client->apiUrl('/members/admin', ''));
+    $result = $this->client->buildRequest($this->client->apiUrl('/members/admin', ''));
     $this->assertTrue($expected == $result->code, 'Invalid username fails to fail');
   }
 }
