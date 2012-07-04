@@ -252,10 +252,20 @@ abstract class Trello {
       case 301:
       case 302:
       case 307:
+        $location = $result->headers['location'];
         $options['timeout'] -= $this->timerRead(__FUNCTION__) / 1000;
         if ($options['timeout'] <= 0) {
-          $result->code = HTTP_REQUEST_TIMEOUT;
+          $result->code = -1;
           $result->error = 'request timed out';
+        }
+        elseif ($options['max_redirects']) {
+          // Redirect to the new location.
+          $options['max_redirects']--;
+          $result = drupal_http_request($location, $options);
+          $result->redirect_code = $code;
+        }
+        if (!isset($result->redirect_url)) {
+          $result->redirect_url = $location;
         }
         break;
 
