@@ -65,7 +65,7 @@ class Trello {
    *   - headers: An array containing HTTP response headers.
    *   - data: The body of the response.
    */
-  public function buildRequest($url, $options) {
+  public function buildRequest($url, $options = array()) {
     $result = new stdClass();
 
     $uri = @parse_url($url);
@@ -254,7 +254,6 @@ class Trello {
       case 301: // Moved permanently
       case 302: // Moved temporarily
       case 307: // Moved temporarily
-        $location = $result->headers['location'];
         $options['timeout'] -= timer_read(__FUNCTION__) / 1000;
         if ($options['timeout'] <= 0) {
           $result->code = HTTP_REQUEST_TIMEOUT;
