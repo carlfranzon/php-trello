@@ -24,7 +24,25 @@ class TrelloClient extends Trello {
     $this->apiKey = $apiKey;
   }
 
-  public function listBoards((string) $filter = 'all') {
+  /**
+   * List boards that that a user has read access to
+   *
+   * @param string $filter (optional)
+   *   Valid options are:
+   *   - none
+   *   - members
+   *   - organization
+   *   - public
+   *   - open
+   *   - closed
+   *   - pinned
+   *   - unpinned
+   *   - all
+   *
+   * @return
+   *   An array of TrelloBoard objects containing board ID's
+   */
+  public function listBoards($filter = 'all') {
     $url = $this->apiUrl('/members/' . $this->username . '/boards/' . $filter);
     $response = $this->buildRequest($url);
     $data = json_decode($response->data);
