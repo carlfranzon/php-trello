@@ -44,20 +44,14 @@ class TrelloClient extends Trello {
    *   - all
    *
    * @return
-   *   An array of TrelloBoard objects containing board ID's
+   *   An object containing all boards that a user can read from that where
+   *   that filter applies.
    */
   public function listBoards($user, $filter = 'all') {
     $url = $this->apiUrl('/members/' . $user . '/boards/' . $filter);
     $response = $this->buildRequest($url);
     $data = json_decode($response->data);
-
-    $results = array();
-    foreach($data as $info) {
-      $board = new TrelloBoard($info->id);
-      $results[] = $board;
-    }
-
-    return $results;
+    return $data;
   }
 
   /**
