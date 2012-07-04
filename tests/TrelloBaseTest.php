@@ -24,7 +24,6 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
   public function testApiUrl() {
     $expected = 'https://api.trello.com/1/members/' . $this->client->username . '?key=' . $this->client->apiKey;
     $result = $this->client->apiUrl('/members/' . $this->client->username, '');
-
     $this->assertTrue($expected == $result, 'Expected ' . $expected . ' | Got ' . $result);
   }
 
@@ -32,21 +31,21 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
     // Test that we can see ourselves on Trello
     $expected = 200;
     $result = $this->client->buildRequest($this->client->apiUrl('/members/' . $this->client->username, ''));
-    $this->assertTrue($expected == $result->response->code, 'Expected HTTP Status Code 200');
+    $this->assertTrue($expected == $result->code, 'Unsuccessful request for data about own user');
 
     // Test that we can see other users on Trello
     $expected = 200;
     $result = $this->client->buildRequest($this->client->apiUrl('/members/brianaltenhofel', ''));
-    $this->assertEquals($expected, $result->response->code, 'Successful request for data about another user');
+    $this->assertTrue($expected == $result->code, 'Unsuccessful request for data about another user');
 
     // Test that an invalid key will fail properly
     $expected = 401;
     $result = $this->clientWrongKey->buildRequest($this->client->apiUrl('/members/' . $this->client->username, ''));
-    $this->assertEquals($expected, $result->response->code, 'Invalid key fails properly');
+    $this->assertTrue($expected == $result->code, 'Invalid key fails to fail');
 
     // Test that an invalid username will fail properly
     $expected = 404;
     $result = $this->clientWrongKey->buildRequest($this->client->apiUrl('/members/admin', ''));
-    $this->assertEquals($expected, $result->response->code, 'Invalid username fails properly');
+    $this->assertTrue($expected == $result->code, 'Invalid username fails to fail');
   }
 }
