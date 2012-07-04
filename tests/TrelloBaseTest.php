@@ -17,8 +17,8 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
    * Set up our basic tests
    */
   protected function setUp() {
-    $this->client = new Trello('brianaltenhofelusertest', '246bd36112b51ad571f1455152bf7dc7');
-    $this->clientWrongKey = new Trello('brianaltenhofelusertest', 'xxxxd36112b51ad571f1455152bfxxxx');
+    $this->client = new TrelloClient('brianaltenhofelusertest', '246bd36112b51ad571f1455152bf7dc7');
+    $this->clientWrongKey = new TrelloClient('brianaltenhofelusertest', 'xxxxd36112b51ad571f1455152bfxxxx');
   }
 
   public function testApiUrl() {

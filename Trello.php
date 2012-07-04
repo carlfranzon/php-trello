@@ -8,21 +8,7 @@
 /**
  * Class containing essential functions for interacting with the Trello API
  */
-class Trello {
-
-  public $username;
-  public $apiKey;
-
-  /**
-   * @param string $user
-   *   The username for your Trello account
-   * @param string $apiKey
-   *   The API key provided by Trello
-   */
-  public function __construct($username, $apiKey) {
-    $this->username = $username;
-    $this->apiKey = $apiKey;
-  }
+abstract class Trello {
 
   /**
    * Build the URL for accessing Trello
