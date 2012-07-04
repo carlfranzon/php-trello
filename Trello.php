@@ -68,6 +68,8 @@ abstract class Trello {
       return $result;
     }
 
+    $this->timerStart(__FUNCTION__);
+
     // Merge default options
     $options += array(
       'headers' => array(),
@@ -141,6 +143,13 @@ abstract class Trello {
     $request .= "\r\n" . $options['data'];
     $result->request = $request;
 
+    // Calculate how much time is left of the original timeout value.
+    $timeout = $options['timeout'] - $this->timerRead(__FUNCTION__) / 1000;
+    if ($timeout > 0) {
+      stream_set_timeout($fp, floor($timeout), floor(1000000 * fmod($timeout, 1)));
+      fwrite($fp, $request);
+    }
+
     // Fetch response
     $info = stream_get_meta_data($fp);
     $alive = !$info['eof'] && !$info['timed_out'];
@@ -148,7 +157,7 @@ abstract class Trello {
 
     while ($alive) {
       // Calculate how much time is left of the original timeout value.
-      $timeout = $options['timeout'] - timer_read(__FUNCTION__) / 1000;
+      $timeout = $options['timeout'] - $this->timerRead(__FUNCTION__) / 1000;
       if ($timeout <= 0) {
         $info['timed_out'] = TRUE;
         break;
@@ -240,7 +249,7 @@ abstract class Trello {
       case 301: // Moved permanently
       case 302: // Moved temporarily
       case 307: // Moved temporarily
-        $options['timeout'] -= timer_read(__FUNCTION__) / 1000;
+        $options['timeout'] -= $this->timerRead(__FUNCTION__) / 1000;
         if ($options['timeout'] <= 0) {
           $result->code = HTTP_REQUEST_TIMEOUT;
           $result->error = 'request timed out';
@@ -253,4 +262,69 @@ abstract class Trello {
     return $result;
   }
 
+  /**
+   * Starts a timer to keep track of timeouts
+   *
+   * @param string $name
+   *   The name of the timer
+   */
+  public function timerStart($name) {
+    global $timers;
+
+    $timers[$name]['start'] = microtime(TRUE);
+    $timers[$name]['count'] = isset($timers[$name]['count']) ? ++$timers[$name]['count'] : 1;
+  }
+
+  /**
+   * Reads the current timer value
+   *
+   * @param string $name
+   *   The name of the timer
+   *
+   * @return
+   *   The current timer value in milliseconds
+   */
+  public function timerRead($name) {
+    global $timers;
+
+    if (isset($timers[$name]['start'])) {
+      $stop = microtime(TRUE);
+      $diff = round(($stop - $timers[$name]['start']) * 1000, 2);
+
+      if (isset($timers[$name]['time'])) {
+        $diff += $timers[$name]['time'];
+      }
+      return $diff;
+    }
+    return $timers[$name]['time'];
+  }
+
+  /**
+   * Stops the specified timer
+   *
+   * @param string $name
+   *   The name of the timer
+   *
+   * @return
+   *   An array containing the following information:
+   *   - count: The number of times the timer has been started and stopped
+   *   - time: The total timer value in milliseconds
+   */
+  public function timerStop($name) {
+    global $timers;
+
+    if (isset($timers[$name]['start'])) {
+      $stop = microtime(TRUE);
+      $diff = round(($stop - $timers[$name]['start']) * 1000, 2);
+      if (isset($timers[$name]['time'])) {
+        $timers[$name]['time'] += $diff;
+      }
+      else {
+        $timers[$name]['time'] = $diff;
+      }
+      unset($timers[$name]['start']);
+    }
+
+    return $timers[$name];
+  }
 }
