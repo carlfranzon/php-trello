@@ -59,4 +59,20 @@ class TrelloClient extends Trello {
 
     return $results;
   }
+
+  /**
+   * Get an individual board fom Trello
+   *
+   * @param string $board
+   *   The ID of the board to retrieve.
+   *
+   * @return
+   *   An object containing information about the board
+   */
+  public function getBoard($board) {
+    $url = $this->apiUrl('/boards/' . $board);
+    $response = $this->buildRequest($url);
+    $data = json_decode($response->data);
+    return $data;
+  }
 }
