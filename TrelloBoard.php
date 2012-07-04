@@ -14,7 +14,7 @@ class TrelloBoard extends Trello {
   public $id;
 
   public function __construct($id) {
-    $this->boardID = $id;
+    $this->id = $id;
   }
 
 }

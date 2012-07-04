@@ -24,14 +24,14 @@ class TrelloClient extends Trello {
     $this->apiKey = $apiKey;
   }
 
-  public function listBoards() {
-    $url = $this->apiUrl('/members/' . $this->username . '/boards/all');
+  public function listBoards((string) $filter = 'all') {
+    $url = $this->apiUrl('/members/' . $this->username . '/boards/' . $filter);
     $response = $this->buildRequest($url);
     $data = json_decode($response->data);
 
     $results = array();
-    foreach($data as $board) {
-      $board = new TrelloBoard($board->id);
+    foreach($data as $info) {
+      $board = new TrelloBoard($info->id);
       $results[] = $board;
     }
 
