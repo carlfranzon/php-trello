@@ -48,4 +48,11 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
     $result = $this->client->buildRequest($this->client->apiUrl('/members/admin', ''));
     $this->assertTrue($expected == $result->code, 'Invalid username fails to fail');
   }
+
+  public function testListBoards() {
+    // Test that we are using a proper endpoint and our key is valid
+    $expected = 200;
+    $result = $this->client->listBoards();
+    $this->assertTrue($expected == $result->code, 'Improper endpoint or invalid key. See other tests to determine root cause.');
+  }
 }
