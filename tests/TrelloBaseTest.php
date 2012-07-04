@@ -25,14 +25,14 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
     $expected = 'https://api.trello.com/1/members/' . $this->client->username . '?key=' . $this->client->apiKey;
     $result = $this->client->apiUrl('/members/' . $this->client->username, '');
 
-    $this->assertEquals($expected, $result, 'Successfully build apiUrl ' . $expected);
+    $this->assertTrue($expected == $result, 'Expected ' . $expected . ' | Got ' . $result);
   }
 
   public function testBuildRequest() {
     // Test that we can see ourselves on Trello
     $expected = 200;
     $result = $this->client->buildRequest($this->client->apiUrl('/members/' . $this->client->username, ''));
-    $this->assertEquals($expected, $result->response->code, 'Successful request for own user data');
+    $this->assertTrue($expected == $result->response->code, 'Expected HTTP Status Code 200');
 
     // Test that we can see other users on Trello
     $expected = 200;
@@ -48,9 +48,5 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
     $expected = 404;
     $result = $this->clientWrongKey->buildRequest($this->client->apiUrl('/members/admin', ''));
     $this->assertEquals($expected, $result->response->code, 'Invalid username fails properly');
-
-
-
   }
-
 }
