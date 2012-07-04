@@ -34,7 +34,7 @@ class Trello {
   public function apiUrl($path, $query) {
     $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
 
-    if (isset($query)) {
+    if (isset($query) && !empty($query)) {
       $url .= '&' . urlencode($query);
     }
 
