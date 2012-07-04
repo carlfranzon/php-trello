@@ -20,7 +20,7 @@ class TrelloClient extends Trello {
    * @param string $apiKey
    *   The API key provided by Trello
    */
-  public function __construct($username, $apiKey, $secret) {
+  public function __construct($username, $apiKey, $secret = '') {
     $this->username = $username;
     $this->apiKey = $apiKey;
     $this->secret = $secret;
