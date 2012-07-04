@@ -51,8 +51,7 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
 
   public function testListBoards() {
     // Test that we are using a proper endpoint and our key is valid
-    $expected = 200;
     $result = $this->client->listBoards($this->client->username);
-    $this->assertTrue($expected == $result->code, 'Improper endpoint or invalid key. See other tests to determine root cause.');
+    $this->assertTrue(!empty($result), 'Received an empty array');
   }
 }
