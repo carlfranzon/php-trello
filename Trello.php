@@ -92,12 +92,14 @@ abstract class Trello {
         // checking the host that do not take into account the port number.
         $options['headers']['Host'] = $uri['host'] . ($port != 80 ? ':' . $port : '');
         break;
+
       case 'https':
         // Note: Only works when PHP is compiled with OpenSSL support.
         $port = isset($uri['port']) ? $uri['port'] : 443;
         $socket = 'ssl://' . $uri['host'] . ':' . $port;
         $options['headers']['Host'] = $uri['host'] . ($port != 443 ? ':' . $port : '');
         break;
+
       default:
         $result->error = 'invalid schema ' . $uri['scheme'];
         $result->code = -1003;
@@ -243,18 +245,20 @@ abstract class Trello {
     $result->code = $code;
 
     switch ($code) {
-      case 200: // OK
-      case 304: // Not modified
+      case 200:
+      case 304:
         break;
-      case 301: // Moved permanently
-      case 302: // Moved temporarily
-      case 307: // Moved temporarily
+
+      case 301:
+      case 302:
+      case 307:
         $options['timeout'] -= $this->timerRead(__FUNCTION__) / 1000;
         if ($options['timeout'] <= 0) {
           $result->code = HTTP_REQUEST_TIMEOUT;
           $result->error = 'request timed out';
         }
         break;
+
       default:
         $result->error = $status_message;
     }
