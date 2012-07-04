@@ -9,7 +9,7 @@
  * Base class for PHP-Trello tests. All PHP-Trello tests should extend
  * this class.
  */
-class TrelloBaseTestCase extends PHPUnit_Framework_TestCase {
+class TrelloBaseTest extends PHPUnit_Framework_TestCase {
   protected $client;
 
   /**
