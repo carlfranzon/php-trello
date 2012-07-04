@@ -10,8 +10,8 @@
  */
 class Trello {
 
-  protected $username;
-  protected $apiKey;
+  public $username;
+  public $apiKey;
 
   /**
    * @param string $user
