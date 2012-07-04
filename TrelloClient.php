@@ -27,6 +27,8 @@ class TrelloClient extends Trello {
   /**
    * List boards that that a user has read access to
    *
+   * @param string $user
+   *   The name of the user to retrieve boards from.
    * @param string $filter (optional)
    *   Valid options are:
    *   - none
@@ -42,8 +44,8 @@ class TrelloClient extends Trello {
    * @return
    *   An array of TrelloBoard objects containing board ID's
    */
-  public function listBoards($filter = 'all') {
-    $url = $this->apiUrl('/members/' . $this->username . '/boards/' . $filter);
+  public function listBoards($user = $this->client->username, $filter = 'all') {
+    $url = $this->apiUrl('/members/' . $user . '/boards/' . $filter);
     $response = $this->buildRequest($url);
     $data = json_decode($response->data);
 
