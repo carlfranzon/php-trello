@@ -17,18 +17,4 @@ class TrelloBoard extends Trello {
     $this->boardID = $id;
   }
 
-  public function listBoards() {
-    $url = $this->apiUrl('/members/' . $this->username . '/boards/all');
-    $response = $this->buildRequest($url);
-    $data = json_decode($response->data);
-
-    $results = array();
-    foreach($data as $board) {
-      $board = new TrelloBoard($board->id);
-      $results[] = $board;
-    }
-
-    return $results;
-  }
-
 }
