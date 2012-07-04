@@ -1,0 +1,7 @@
+<phpunit>
+  <testsuites>
+    <testsuite name="TrelloBaseTest">
+      <directory>../tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
