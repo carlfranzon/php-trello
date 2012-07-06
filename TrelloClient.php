@@ -50,8 +50,7 @@ class TrelloClient extends Trello {
   public function listBoards($user, $filter = 'all') {
     $url = $this->apiUrl('/members/' . $user . '/boards/' . $filter);
     $response = $this->buildRequest($url);
-    $data = json_decode($response->data);
-    return $data;
+    return $response;
   }
 
   /**
@@ -66,7 +65,6 @@ class TrelloClient extends Trello {
   public function getBoard($board) {
     $url = $this->apiUrl('/boards/' . $board);
     $response = $this->buildRequest($url);
-    $data = json_decode($response->data);
-    return $data;
+    return $response;
   }
 }
