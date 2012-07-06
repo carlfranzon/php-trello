@@ -16,7 +16,7 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
   /**
    * Set up our basic tests
    */
-  protected function setUp() {
+  public function setUp() {
     $this->client = new TrelloClient('brianaltenhofelusertest', '246bd36112b51ad571f1455152bf7dc7');
     $this->clientWrongKey = new TrelloClient('brianaltenhofelusertest', 'xxxxd36112b51ad571f1455152bfxxxx');
   }
@@ -49,9 +49,4 @@ class TrelloBaseTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($expected == $result->code, 'Invalid username fails to fail');
   }
 
-  public function testListBoards() {
-    // Test that we are using a proper endpoint and our key is valid
-    $result = $this->client->listBoards($this->client->username);
-    $this->assertTrue(!empty($result), 'Received an empty array');
-  }
 }
