@@ -341,4 +341,19 @@ abstract class Trello {
 
     return $timers[$name];
   }
+
+  /**
+   * Decodes the response into something usable
+   *
+   * @param object $data
+   *   The entire response from a request
+   *
+   * @return
+   *   An object or array depending on how the JSON data was encoded by Trello.
+   */
+  public function decode($data) {
+    $json = json_decode($data);
+    return $json;
+  }
+
 }
