@@ -10,8 +10,8 @@
  * this class.
  */
 class TrelloBaseTest extends PHPUnit_Framework_TestCase {
-  protected $client;
-  protected $clientWrongKey;
+  public $client;
+  public $clientWrongKey;
 
   /**
    * Set up our basic tests
