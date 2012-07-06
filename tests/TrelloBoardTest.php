@@ -18,7 +18,7 @@ class TrelloBoardTest extends TrelloBaseTest {
     // Test that we are using a proper endpoint and our key is valid
     $result = $this->client->listBoards($this->client->username);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for board listing');
-    $data = $this->decode($result->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for board listing returned an empty array');
   }
 
