@@ -17,7 +17,9 @@ class TrelloBoardTest extends TrelloBaseTest {
   public function testListBoards() {
     // Test that we are using a proper endpoint and our key is valid
     $result = $this->client->listBoards($this->client->username);
-    $this->assertTrue(!empty($result), 'Received an empty array');
+    $this->assertTrue('200' === $result->code), 'Unsuccessful request for board listing');
+    $data = $this->decode($result->data);
+    $this->assertTrue(!empty($data), 'Request for board listing returned an empty array');
   }
 
   /**
@@ -26,8 +28,8 @@ class TrelloBoardTest extends TrelloBaseTest {
    */
   public function testBoardsControlledFailures() {
     // Test that listing boards with a presumably invalid username works
-    $result= $this->client->listBoards('admin');
-    $this->assertTrue();
+    $result = $this->client->listBoards('admin');
+    $this->assertTrue('404' === $result->code, 'Request using invalid username failed to return 404 error');
   }
 
 }
