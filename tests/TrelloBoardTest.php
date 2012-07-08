@@ -54,6 +54,20 @@ class TrelloBoardTest extends TrelloBaseTest {
     $this->assertTrue(!empty($data), 'Request for card listing for public unowned board returned nothing.');
   }
 
+  public function testListBoardMembers() {
+    // Test that we can get a listing of members for our board.
+    $result = $this->client->listBoardMembers($this->testBoard);
+    $this->assertTrue('200' === $result->code, 'Unsuccessful request for members listing for this board.');
+    $data = $this->client->decode($result->data);
+    $this->assertTrue(!empty($data), 'Request for member listing for board returned nothing.');
+
+    // Test that we can get a listing of cards of a public unowned board.
+    $result = $this->client->listBoardMembers($this->testBoardPublic);
+    $this->assertTrue('200' === $result->code, 'Unsuccessful request for members listing for public unowned board.');
+    $data = $this->client->decode($result->data);
+    $this->assertTrue(!empty($data), 'Request for member listing for public unowned board returned nothing.');
+  }
+
   /**
    * A good test suite makes sure that we do fail where we are supposed to
    * fail. This set of tests is to ensure that.
