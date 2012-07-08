@@ -10,7 +10,8 @@
  */
 class TrelloBoardTest extends TrelloBaseTest {
 
-  protected $board;
+  protected $testBoard = '4ff49d494e4aee555cc4b712';
+  protected $testBoardPublic = '4ff4f2eefe637f533a729e0e';
 
   public function setUp() {
     parent::setUp();
@@ -20,41 +21,35 @@ class TrelloBoardTest extends TrelloBaseTest {
     // Test that we are using a proper endpoint and our key is valid
     $result = $this->client->listBoards($this->client->username);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for board listing.');
-    $data = $this->client->decode($this->client->listBoards($this->client->username)->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for board listing returned nothing.');
   }
 
   public function testGetBoard() {
-    $testBoard = '4ff49d494e4aee555cc4b712';
-    $testBoardPublic = '4ff4f2eefe637f533a729e0e';
-
     // Test that we can get a board
-    $result = $this->client->getBoard($testBoard);
+    $result = $this->client->getBoard($this->testBoard);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for board.');
-    $data = $this->client->decode($this->client->getBoard($testBoard)->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for board listing returned nothing.');
 
     // Test that we can get a public board that is not self-owned and that we are not a member of
-    $result = $this->client->getBoard($testBoardPublic);
+    $result = $this->client->getBoard($this->testBoardPublic);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for public unowned board.');
-    $data = $this->client->decode($this->client->getBoard($testBoardPublic)->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for public unowned board returned nothing.');
   }
 
   public function testGetBoardCards() {
-    $testBoard = '4ff49d494e4aee555cc4b712';
-    $testBoardPublic = '4ff4f2eefe637f533a729e0e';
-
     // Test that we can get a listing of cards for our board.
-    $result = $this->client->getBoardCards($testBoard);
+    $result = $this->client->getBoardCards($this->testBoard);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for card listing for board.');
-    $data = $this->client->decode($this->client->getBoard($testBoard)->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for card listing for board returned nothing.');
 
     // Test that we can get a listing of cards of a public unowned board.
-    $result = $this->client->getBoardCards($testBoardPublic);
+    $result = $this->client->getBoardCards($this->testBoardPublic);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for card listing for public unowned board.');
-    $data = $this->client->decode($this->client->getBoard($testBoardPublic)->data);
+    $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for card listing for public unowned board returned nothing.');
   }
 
