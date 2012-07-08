@@ -77,7 +77,7 @@ class TrelloClient extends Trello {
    * @return
    *   An object containing the cards that a user can read from the board.
    */
-  public function getBoardCards($board) {
+  public function listBoardCards($board) {
     $url = $this->apiUrl('/boards/' . $board . '/cards');
     $response = $this->buildRequest($url);
     return $response;
@@ -92,7 +92,7 @@ class TrelloClient extends Trello {
    * @return
    *   An object containing a list of the members of the board.
    */
-  public function getBoardMembers($board) {
+  public function listBoardMembers($board) {
     $url = $this->apiUrl('/boards/' . $board . '/members');
     $response = $this->buildRequest($url);
     return $response;

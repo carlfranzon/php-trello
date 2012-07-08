@@ -39,16 +39,16 @@ class TrelloBoardTest extends TrelloBaseTest {
     $this->assertTrue(!empty($data), 'Request for public unowned board returned nothing.');
   }
 
-  public function testGetBoardCards() {
+  public function testListBoardCards() {
     // Test that we can get a listing of cards for our board.
-    $result = $this->client->getBoardCards($this->testBoard);
+    $result = $this->client->listBoardCards($this->testBoard);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for card listing for board.');
     // @TODO Test Board currently contains no cards
 //    $data = $this->client->decode($result->data);
 //    $this->assertTrue(!empty($data), 'Request for card listing for board returned nothing.');
 
     // Test that we can get a listing of cards of a public unowned board.
-    $result = $this->client->getBoardCards($this->testBoardPublic);
+    $result = $this->client->listBoardCards($this->testBoardPublic);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for card listing for public unowned board.');
     $data = $this->client->decode($result->data);
     $this->assertTrue(!empty($data), 'Request for card listing for public unowned board returned nothing.');
