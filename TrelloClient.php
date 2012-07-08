@@ -63,8 +63,26 @@ class TrelloClient extends Trello {
    *   An object containing all boards that a user can read from that where
    *   that filter applies.
    */
-  public function listBoards($user, $filter = 'all') {
-    $url = $this->apiUrl('/members/' . $user . '/boards/' . $filter);
+  public function listBoards($user, $filter) {
+    $url = $this->apiUrl('/members/' . $user . '/boards');
+    // Check that we are using valid filters
+    switch ($filter) {
+      case '':
+        break;
+      case 'none':
+      case 'members':
+      case 'organization':
+      case 'public':
+      case 'open':
+      case 'closed':
+      case 'pinned':
+      case 'unpinned':
+      case 'all':
+        $url = $url . '/' . $filter;
+        break;
+      default:
+        throw new Exception("Invalid filter");
+    }
     $response = $this->buildRequest($url);
     return $response;
   }
