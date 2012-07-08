@@ -67,4 +67,19 @@ class TrelloClient extends Trello {
     $response = $this->buildRequest($url);
     return $response;
   }
+
+  /**
+   * Get a listing of cards from a Trello Board
+   *
+   * @param string $board
+   *   The ID of the board to use.
+   *
+   * @return
+   *   An object containing the cards that a user can read from the board.
+   */
+  public function getBoardCards($board) {
+    $url = $this->apiUrl('/boards/' . $board . '/cards');
+    $response = $this->buildRequest($url);
+    return $response;
+  }
 }
