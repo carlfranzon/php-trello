@@ -10,8 +10,8 @@
  */
 class TrelloBoardTest extends TrelloBaseTest {
 
-  protected $board = '4ff49d494e4aee555cc4b712';
-  protected $boardPublic = '4ff4f2eefe637f533a729e0e';
+  public $board = '4ff49d494e4aee555cc4b712';
+  public $boardPublic = '4ff4f2eefe637f533a729e0e';
 
   public function setUp() {
     parent::setUp();
