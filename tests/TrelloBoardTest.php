@@ -10,8 +10,7 @@
  */
 class TrelloBoardTest extends TrelloBaseTest {
 
-  public $board = '4ff49d494e4aee555cc4b712';
-  public $boardPublic = '4ff4f2eefe637f533a729e0e';
+  protected $board;
 
   public function setUp() {
     parent::setUp();
@@ -26,16 +25,18 @@ class TrelloBoardTest extends TrelloBaseTest {
   }
 
   public function testGetBoard() {
+    $testBoard = '4ff49d494e4aee555cc4b712';
+    $testBoardPublic = '4ff4f2eefe637f533a729e0e';
     // Test that we can get a board
-    $result = $this->client->getBoard($board);
+    $result = $this->client->getBoard($testBoard);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for board.');
-    $data = $this->client->decode($this->client->getBoard($board)->data);
+    $data = $this->client->decode($this->client->getBoard($testBoard)->data);
     $this->assertTrue(!empty($data), 'Request for board listing returned nothing.');
 
     // Test that we can get a public board that is not self-owned and that we are not a member of
-    $result = $this->client->getBoard($boardPublic);
+    $result = $this->client->getBoard($testBoardPublic);
     $this->assertTrue('200' === $result->code, 'Unsuccessful request for public unowned board.');
-    $data = $this->client->decode($this->client->getBoard($boardPublic)->data);
+    $data = $this->client->decode($this->client->getBoard($testBoardPublic)->data);
     $this->assertTrue(!empty($data), 'Request for public unowned board returned nothing.');
   }
 
