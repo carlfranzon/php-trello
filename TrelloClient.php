@@ -82,4 +82,19 @@ class TrelloClient extends Trello {
     $response = $this->buildRequest($url);
     return $response;
   }
+
+  /**
+   * Get a listing of the members of a Trello Board
+   *
+   * @param string $board
+   *   The ID of the board to use.
+   *
+   * @return
+   *   An object containing a list of the members of the board.
+   */
+  public function getBoardMembers($board) {
+    $url = $this->apiUrl('/boards/' . $board . '/members');
+    $response = $this->buildRequest($url);
+    return $response;
+  }
 }
