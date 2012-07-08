@@ -27,6 +27,22 @@ class TrelloClient extends Trello {
   }
 
   /**
+   * Get information about a member
+   *
+   * @param string $user
+   *   The name or member ID of the user. Defaults to 'me' which retrieves
+   *   information about the username associated with the supplied token.
+   *
+   * @return
+   *   An object containing information about a given member
+   */
+  public function getMember($user = 'me') {
+    $url = $this->apiUrl('/members/' . $user);
+    $response = $this->buildRequest($url);
+    return $response;
+  }
+
+  /**
    * List boards that that a user has read access to
    *
    * @param string $user
