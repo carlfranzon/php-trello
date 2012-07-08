@@ -47,43 +47,89 @@ class TrelloClient extends Trello {
    *
    * @param string $user
    *   The name of the user to retrieve boards from.
-   * @param string $filter (optional)
-   *   Valid options are:
-   *   - none
-   *   - members
-   *   - organization
-   *   - public
-   *   - open
-   *   - closed
-   *   - pinned
-   *   - unpinned
-   *   - all
+   * @param array $arguments (optional)
+   *   An array containing arguments to be sent to Trello to alter board listings.
+   *   Multiple values for any key should be comma separated.
+   *
+   *   Valid key-value pairs are:
+   *   - filter
+   *     - none
+   *     - members
+   *     - organization
+   *     - public
+   *     - open
+   *     - closed
+   *     - pinned
+   *     - unpinned
+   *     - all (default)
+   *   - fields
+   *     - name
+   *     - desc
+   *     - closed
+   *     - idOrganization
+   *     - invited
+   *     - pinned
+   *     - url
+   *     - prefs
+   *     - invitations
+   *     - memberships
+   *     - labelNames
+   *     - all (default)
+   *   - actions
+   *     - addAttachmentToCard
+   *     - addChecklistToCard
+   *     - addMemberToBoard
+   *     - addMemberToCard
+   *     - addMemberToOrganization
+   *     - commentCard
+   *     - copyCommentCard
+   *     - convertToCardFromCheckItem
+   *     - copyBoard
+   *     - createBoard
+   *     - createCard
+   *     - copyCard
+   *     - createList
+   *     - createOrganization
+   *     - deleteAttachmentFromCard
+   *     - deleteBoardInvitation
+   *     - moveCardFromBoard
+   *     - moveCardToBoard
+   *     - removeAdminFromBoard
+   *     - removeAdminFromOrganization
+   *     - removeChecklistFromCard
+   *     - removeFromOrganizationBoard
+   *     - removeMemberFromCard
+   *     - updateBoard
+   *     - updateCard
+   *     - updateCheckItemStateOnCard
+   *     - updateMember
+   *     - updateOrganization
+   *     - updateCard:idList
+   *     - updateCard:closed
+   *     - updateCard:desc
+   *     - updateCard:name
+   *     - all (default)
+   *   - actions_limit
+   *     Any number between 1 and 1000 (default 50).
+   *   - actions_format
+   *     - count
+   *     - list (default)
+   *   - actions_since
+   *     A date, NULL, or lastView
+   *   - action_fields
+   *     - idMemberCreator
+   *     - data
+   *     - type
+   *     - date
+   *     - all (default)
    *
    * @return
    *   An object containing all boards that a user can read from that where
    *   that filter applies.
    */
-  public function listBoards($user, $filter) {
+  public function listBoards($user, $arguments = array()) {
     $url = $this->apiUrl('/members/' . $user . '/boards');
-    // Check that we are using valid filters
-    switch ($filter) {
-      case '':
-        break;
-      case 'none':
-      case 'members':
-      case 'organization':
-      case 'public':
-      case 'open':
-      case 'closed':
-      case 'pinned':
-      case 'unpinned':
-      case 'all':
-        $url = $url . '/' . $filter;
-        break;
-      default:
-        throw new Exception("Invalid filter");
-    }
-    $response = $this->buildRequest($url);
+    $response = $this->buildRequest($url, $arguments);
     return $response;
   }
 

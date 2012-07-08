@@ -17,11 +17,14 @@ abstract class Trello {
    *
    * @return string
    */
-  public function apiUrl($path, $query = NULL) {
+  public function apiUrl($path, $args = array()) {
     $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
 
-    if (isset($query) && !empty($query)) {
-      $url .= '&' . urlencode($query);
+    if (isset($args) && !empty($args)) {
+      foreach ($args as $argument => $value) {
+        $query .= '&' . $argument . '=' . $value;
+      }
+      $url .= urlencode($query);
     }
 
     return $url;
