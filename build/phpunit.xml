@@ -6,6 +6,9 @@
     <testsuite name="TrelloBoardTest">
       <directory>../tests</directory>
     </testsuite>
+    <testsuite name="TrelloMemberTest">
+      <directory>../tests</directory>
+    </testsuite>
   </testsuites>
   <logging>
     <log type="coverage-html" target="../build/coverage" title="PHP-Trello"
