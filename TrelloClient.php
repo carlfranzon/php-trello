@@ -217,6 +217,23 @@ class TrelloClient extends Trello {
   }
 
   /**
+   * Get information about the board that a Card belongs to.
+   *
+   * @param string $card
+   *   The ID of the card to retrieve.
+   * @param array $arguments
+   *   An array of arguments to send to Trello to modify Card output.
+   *
+   * @return
+   *   An object containing information about the board for the request card.
+   */
+  public function getCardBoard($card, $arguments = array()) {
+    $url = $this->apiUrl('/cards/' . $card . '/board');
+    $response = $this->buildRequest($url, $arguments);
+    return $response;
+  }
+
+  /**
    * Get a listing of the members of a Trello Board
    *
    * @param string $board
