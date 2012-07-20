@@ -170,13 +170,15 @@ class TrelloClient extends Trello {
    *   The ID of the board to use.
    * @param string $card
    *   The ID of the card to retrieve.
+   * @param array $arguments
+   *   An array of arguments to send to Trello to modify Card output.
    *
    * @return
    *   An object containing information about the card from the board
    */
-  public function getBoardCard($board, $card) {
+  public function getBoardCard($board, $card, $arguments = array()) {
     $url = $this->apiUrl('/boards/' . $board . '/cards/' . $card);
-    $response = $this->buildRequest($url);
+    $response = $this->buildRequest($url, $arguments);
     return $response;
   }
 
