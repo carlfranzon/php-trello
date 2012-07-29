@@ -183,6 +183,23 @@ class TrelloClient extends Trello {
   }
 
   /**
+   * Get a list of checklists for a board
+   *
+   * @param string $board
+   *   The ID of the board to use.
+   * @param array $arguments
+   *   An array of arguments to send to Trello to modify list output.
+   *
+   * @return
+   *   An object containing a listing of checklists from a Board.
+   */
+  public function getBoardChecklists($board, $arguments) {
+    $url = $this->apiUrl('/boards/' . $board . '/checklists');
+    $response = $this->buildRequest($url, $arguments);
+    return $response;
+  }
+
+  /**
    * Get a card by the card ID
    *
    * @param string $card
