@@ -217,6 +217,23 @@ class TrelloClient extends Trello {
   }
 
   /**
+   * Get a list of members that have been invited to a board
+   *
+   * @param string $board
+   *   The ID of the board to use.
+   * @param string $field
+   *   The field of the member to retrieve
+   *
+   * @return
+   *   An object containing a listing of invited members
+   */
+  public function listBoardInvitedMembers($board, $field) {
+    $url = $this->apiUrl('/boards/' . $board . '/membersInvited/' . $field);
+    $response = $this->buildRequest($url);
+    return $response;
+  }
+
+  /**
    * Get a card by the card ID
    *
    * @param string $card
