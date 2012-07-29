@@ -193,7 +193,7 @@ class TrelloClient extends Trello {
    * @return
    *   An object containing a listing of checklists from a Board.
    */
-  public function getBoardChecklists($board, $arguments) {
+  public function listBoardChecklists($board, $arguments) {
     $url = $this->apiUrl('/boards/' . $board . '/checklists');
     $response = $this->buildRequest($url, $arguments);
     return $response;
