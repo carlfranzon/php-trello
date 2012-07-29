@@ -247,4 +247,19 @@ class TrelloClient extends Trello {
     $response = $this->buildRequest($url);
     return $response;
   }
+
+  /**
+   * Get a listing of boards for a member
+   *
+   * @param string $member
+   *   The ID or username of the member
+   *
+   * @return
+   *   An object containing a list of the boards for a member.
+   */
+  public function listMemberBoards($member, $arguments) {
+    $url = $this->apiUrl('/members/' . $member . '/boards');
+    $response = $this->buildRequest($url, $arguments);
+    return $response;
+  }
 }
