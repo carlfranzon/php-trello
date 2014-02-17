@@ -11,6 +11,37 @@
 abstract class Trello {
 
   /**
+   * Take a method call response stdClass Object
+   * and get back an array of keys and values
+   *
+   *
+   * @param $responseObject
+   *
+   * @return json Decoded response from Trello, could be Object, could be Array
+   */
+	public function extractData($responseObject){
+		$arr = array();
+		foreach($responseObject as $key => $value){
+			$arr[$key] = $value;
+		}
+		$arrData = json_decode($arr['data']);
+		
+		//$arrData = $this->objectsToArray($arrData);
+    return $arrData;
+	}
+
+  public function objectsToArray($object){
+      $arr = array();
+      foreach($object as $key => $value){
+        $arr[$key] = $value;
+      }
+      return $arr;      
+  }
+  
+  
+
+
+  /**
    * Build the URL for accessing Trello
    *
    * @param $path
@@ -18,15 +49,18 @@ abstract class Trello {
    * @return string
    */
   public function apiUrl($path, $args = array()) {
-    $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey;
+    $url = 'https://api.trello.com/1' . $path . '?key=' . $this->apiKey .'&token=' .$this->token;
 
     if (isset($args) && !empty($args)) {
+      //added
+      $query = '';
       foreach ($args as $argument => $value) {
         $query .= '&' . $argument . '=' . $value;
       }
-      $url .= urlencode($query);
+      // CHANGED: $url .= urlencode($query);
+      $url .= $query;
     }
-
+   
     return $url;
   }
 
@@ -65,7 +99,7 @@ abstract class Trello {
       return $result;
     }
 
-    if (!isset($url['scheme'])) {
+    if (!isset($uri['scheme'])) { //url['scheme']
       $result->error = 'missing schema';
       $result->code = -1002;
       return $result;
@@ -74,13 +108,23 @@ abstract class Trello {
     $this->timerStart(__FUNCTION__);
 
     // Merge default options
-    $options += array(
+    //$options += array(
+    //  'headers' => array(),
+    //  'method' => 'GET',
+    //  'data' => NULL,
+    //  'timeout' => 30.0,
+    //  'context' => NULL
+    //  );
+
+    $defoptions = array(
       'headers' => array(),
       'method' => 'GET',
       'data' => NULL,
       'timeout' => 30.0,
-      'context' => NULL,
-    );
+      'context' => NULL
+      );
+
+    $options = array_merge($defoptions);
 
     // Ensure that timeout is a float
     $options['timeout'] = (float) $options['timeout'];
