@@ -13,6 +13,7 @@ class TrelloClient extends Trello {
   public $username;
   public $apiKey;
   public $secret;
+  public $token;
 
   /**
    * @param string $user
@@ -20,10 +21,11 @@ class TrelloClient extends Trello {
    * @param string $apiKey
    *   The API key provided by Trello
    */
-  public function __construct($username, $apiKey, $secret = '') {
+  public function __construct($username, $apiKey, $secret = '', $token = '') {
     $this->username = $username;
     $this->apiKey = $apiKey;
     $this->secret = $secret;
+    $this->token = $token;
   }
 
   /**
@@ -142,9 +144,9 @@ class TrelloClient extends Trello {
    * @return
    *   An object containing information about the board
    */
-  public function getBoard($board) {
-    $url = $this->apiUrl('/boards/' . $board);
-    $response = $this->buildRequest($url);
+  public function getBoard($board, $arguments = array()) {
+    $url = $this->apiUrl('/boards/' . $board, $arguments);
+    $response = $this->buildRequest($url, NULL);
     return $response;
   }
 
@@ -211,8 +213,8 @@ class TrelloClient extends Trello {
    *   An object containing a listign of lists from a board.
    */
   public function listBoardLists($board, $arguments) {
-    $url = $this->apiUrl('/boards/' . $board . '/lists');
-    $response = $this->buildRequest($url, $arguments);
+    $url = $this->apiUrl('/boards/' . $board . '/lists', $arguments);
+    $response = $this->buildRequest($url, NULL);
     return $response;
   }
 
@@ -313,4 +315,37 @@ class TrelloClient extends Trello {
     $response = $this->buildRequest($url, $arguments);
     return $response;
   }
+  
+  /**
+   * Get a listing of assigned cards for the loggedin member
+   *
+   * @param array $arguments
+   *   An array of arguments to send to Trello to modify Card output.
+   *
+   * @return
+   *   An object containing a list of the assigned cards for the user.
+   */
+  public function listMyCards($arguments = array()) {
+    $url = $this->apiUrl('/members/my/cards');
+    $response = $this->buildRequest($url, $arguments);
+    return $response;
+  }
+  
+  /**
+   * Get a list by the list ID
+   *
+   * @param string $idList
+   *   The ID of the list to retrieve.
+   * @param array $arguments
+   *   An array of arguments to send to Trello to modify List output.
+   *
+   * @return
+   *   An object containing information about the requested list.
+   */
+  public function getList($idList, $arguments = array()) {
+	$url = $this->apiUrl('/lists/' . $idList);
+    $response = $this->buildRequest($url, $arguments);
+    return $response;
+  }
+  
 }
